@@ -11,30 +11,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --bg: #090909;
-        --bg-soft: #111111;
-        --panel: rgba(255, 255, 255, 0.06);
-        --panel-strong: rgba(255, 255, 255, 0.1);
-        --text: #f5f5f5;
-        --muted: #b2b2b2;
-        --line: rgba(255, 255, 255, 0.12);
-        --red: #ff3b30;
-        --yellow: #ffd44d;
-        --shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
-        --radius-xl: 28px;
-        --radius-lg: 22px;
-        --radius-md: 18px;
-        --max-width: 1200px;
-        --nav-height: 78px;
+        --bg: #060606;
+        --bg-soft: #0e0e0e;
+        --panel: rgba(255, 255, 255, 0.045);
+        --panel-strong: rgba(255, 255, 255, 0.09);
+        --text: #f0ede8;
+        --muted: #9a9690;
+        --line: rgba(255, 255, 255, 0.09);
+        --red: #ff2d1f;
+        --yellow: #f5c518;
+        --orange: #ff6b1a;
+        --shadow: 0 32px 80px rgba(0, 0, 0, 0.55);
+        --radius-xl: 24px;
+        --radius-lg: 18px;
+        --radius-md: 14px;
+        --max-width: 1240px;
+        --nav-height: 72px;
+        --font-display: "Bebas Neue", sans-serif;
+        --font-ui: "Barlow Condensed", sans-serif;
+        --font-body: "Barlow", sans-serif;
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
 
       html {
@@ -42,43 +50,45 @@
       }
 
       body {
-        margin: 0;
-        font-family: "Outfit", sans-serif;
-        background:
-          radial-gradient(
-            circle at top left,
-            rgba(255, 212, 77, 0.08),
-            transparent 28%
-          ),
-          radial-gradient(
-            circle at 85% 10%,
-            rgba(255, 59, 48, 0.1),
-            transparent 24%
-          ),
-          linear-gradient(180deg, #050505 0%, #0a0a0a 45%, #070707 100%);
+        font-family: var(--font-body);
+        background: var(--bg);
         color: var(--text);
         overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
+      /* ── GRAIN OVERLAY ── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0.038;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        background-size: 180px;
+      }
+
+      /* ── GRID ── */
       body::before {
         content: "";
         position: fixed;
         inset: 0;
         background-image:
-          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
           linear-gradient(
             90deg,
-            rgba(255, 255, 255, 0.025) 1px,
+            rgba(255, 255, 255, 0.018) 1px,
             transparent 1px
           );
-        background-size: 64px 64px;
+        background-size: 56px 56px;
         pointer-events: none;
         mask-image: linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.75),
-          transparent 95%
+          rgba(0, 0, 0, 0.9),
+          transparent 80%
         );
-        z-index: -1;
+        z-index: 0;
       }
 
       img,
@@ -87,49 +97,52 @@
         display: block;
         max-width: 100%;
       }
-
       a {
         color: inherit;
         text-decoration: none;
       }
-
       button {
         font: inherit;
       }
 
       .container {
-        width: min(calc(100% - 2rem), var(--max-width));
+        width: min(calc(100% - 2.4rem), var(--max-width));
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
 
       .section {
         position: relative;
-        padding: 6.5rem 0;
+        padding: 7rem 0;
       }
 
-      .section::before {
-        content: "";
+      .section-rule {
         position: absolute;
         left: 50%;
         top: 0;
-        width: min(92vw, 1240px);
+        width: min(96vw, 1280px);
         height: 1px;
         transform: translateX(-50%);
         background: linear-gradient(
           90deg,
           transparent,
-          var(--line),
+          var(--line) 30%,
+          var(--line) 70%,
           transparent
         );
       }
 
+      /* ══════════════════════════
+         NAV
+      ══════════════════════════ */
       .nav {
         position: sticky;
         top: 0;
         z-index: 1000;
-        backdrop-filter: blur(18px);
-        background: rgba(7, 7, 7, 0.7);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(24px) saturate(1.4);
+        background: rgba(6, 6, 6, 0.82);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
 
       .nav-inner {
@@ -137,69 +150,73 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 1.2rem;
       }
 
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 0.8rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        gap: 0.75rem;
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        letter-spacing: 0.12em;
       }
 
       .brand-mark {
-        display: inline-grid;
-        place-items: center;
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
         background: linear-gradient(135deg, var(--yellow), var(--red));
-        color: #050505;
-        font-size: 1.1rem;
-        box-shadow: 0 10px 30px rgba(255, 59, 48, 0.35);
+        display: grid;
+        place-items: center;
+        font-size: 1rem;
+        color: #060606;
+        box-shadow: 0 8px 28px rgba(255, 45, 31, 0.4);
       }
 
       .nav-links {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem 1.2rem;
+        justify-content: flex-end;
+        gap: 0.4rem 0.2rem;
       }
 
       .nav-links a {
         color: var(--muted);
-        font-size: 0.94rem;
+        font-family: var(--font-ui);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 0.4rem 0.7rem;
+        border-radius: 6px;
         transition:
-          color 180ms ease,
-          transform 180ms ease;
+          color 180ms,
+          background 180ms;
       }
 
-      .nav-links a:hover,
-      .nav-links a:focus-visible {
+      .nav-links a:hover {
         color: var(--text);
-        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.06);
       }
 
+      /* ══════════════════════════
+         HERO
+      ══════════════════════════ */
       .hero {
         min-height: calc(100vh - var(--nav-height));
         display: flex;
         align-items: center;
-        padding: 3rem 0 5rem;
+        padding: 2rem 0 3rem;
       }
 
       .hero-shell {
         position: relative;
-        min-height: 78vh;
-        border-radius: 36px;
+        border-radius: 28px;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: var(--shadow);
-        background:
-          linear-gradient(140deg, rgba(255, 59, 48, 0.14), transparent 42%),
-          linear-gradient(320deg, rgba(255, 212, 77, 0.12), transparent 36%),
-          #080808;
+        min-height: 72vh;
       }
 
       .hero-media {
@@ -208,217 +225,238 @@
         overflow: hidden;
       }
 
-      .hero-media::before {
+      .hero-media::after {
         content: "";
         position: absolute;
         inset: 0;
-        background:
-          linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.8)),
-          linear-gradient(
-            110deg,
-            rgba(0, 0, 0, 0.88) 18%,
-            rgba(0, 0, 0, 0.45) 52%,
-            rgba(0, 0, 0, 0.82) 100%
-          );
         z-index: 1;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.25) 0%,
+            rgba(0, 0, 0, 0.75) 100%
+          ),
+          linear-gradient(
+            105deg,
+            rgba(0, 0, 0, 0.9) 14%,
+            rgba(0, 0, 0, 0.3) 52%,
+            rgba(0, 0, 0, 0.7) 100%
+          );
       }
 
       .hero-media video,
-      .hero-media img,
-      .hero-media .media-placeholder {
+      .hero-media img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center center;
+        object-position: center;
       }
 
       .media-placeholder {
-        width: 100%;
-        height: 100%;
+        position: absolute;
+        inset: 0;
         display: grid;
         place-items: center;
-        color: rgba(255, 255, 255, 0.7);
         background:
           radial-gradient(
-            circle at center,
-            rgba(255, 212, 77, 0.12),
-            transparent 32%
+            circle at 30% 50%,
+            rgba(245, 197, 24, 0.1),
+            transparent 40%
           ),
-          linear-gradient(135deg, #121212, #050505);
-        padding: 2rem;
+          radial-gradient(
+            circle at 75% 25%,
+            rgba(255, 45, 31, 0.12),
+            transparent 36%
+          ),
+          #0a0a0a;
+        color: rgba(255, 255, 255, 0.5);
         text-align: center;
+        padding: 2rem;
       }
 
       .media-placeholder span {
         display: inline-block;
-        padding: 0.9rem 1.2rem;
+        padding: 0.8rem 1.2rem;
         border-radius: 999px;
-        border: 1px dashed rgba(255, 255, 255, 0.28);
-        letter-spacing: 0.08em;
+        border: 1px dashed rgba(255, 255, 255, 0.22);
+        font-family: var(--font-ui);
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        font-size: 0.85rem;
       }
 
       .hero-content {
         position: relative;
         z-index: 2;
-        padding: clamp(2rem, 4vw, 4rem);
-        max-width: 760px;
+        padding: clamp(2rem, 4vw, 3.5rem);
+        min-height: 72vh;
         display: grid;
-        gap: 1.3rem;
+        gap: 1.4rem;
         align-content: center;
-        min-height: 78vh;
+        max-width: 800px;
       }
 
+      /* ── EYEBROW / TAGS ── */
       .eyebrow,
       .section-tag {
         display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
+        gap: 0.6rem;
         width: fit-content;
-        padding: 0.5rem 0.85rem;
+        padding: 0.42rem 0.9rem;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: #f1f1f1;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-family: var(--font-ui);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-size: 0.78rem;
+        color: var(--text);
       }
 
       .eyebrow::before,
       .section-tag::before {
         content: "";
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
         background: linear-gradient(135deg, var(--yellow), var(--red));
-        box-shadow: 0 0 18px rgba(255, 212, 77, 0.5);
+        box-shadow: 0 0 12px rgba(245, 197, 24, 0.6);
+        flex-shrink: 0;
       }
 
+      /* ── HEADINGS ── */
       h1,
       h2,
       h3 {
-        margin: 0;
-        line-height: 0.95;
+        font-family: var(--font-display);
+        line-height: 0.93;
         text-transform: uppercase;
-        font-family: "Bebas Neue", sans-serif;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.02em;
       }
 
       h1 {
-        font-size: clamp(4.2rem, 10vw, 8.6rem);
+        font-size: clamp(3.6rem, 8.5vw, 7.5rem);
       }
-
       h2 {
-        font-size: clamp(2.8rem, 7vw, 5rem);
+        font-size: clamp(2.8rem, 6.5vw, 5.2rem);
       }
-
       h3 {
-        font-size: clamp(1.6rem, 3vw, 2.4rem);
+        font-size: clamp(1.6rem, 3vw, 2.5rem);
       }
 
       .hero-lead {
-        max-width: 620px;
-        font-size: clamp(1rem, 1.7vw, 1.18rem);
-        line-height: 1.75;
-        color: #dfdfdf;
+        font-size: clamp(1rem, 1.6vw, 1.15rem);
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(240, 237, 232, 0.82);
+        max-width: 600px;
       }
 
-      .hero-copy {
-        display: grid;
-        gap: 0.85rem;
+      /* ── ACCENT TEXT ── */
+      .accent {
+        color: var(--yellow);
       }
 
+      /* ── BUTTONS ── */
       .hero-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-        padding-top: 0.8rem;
+        padding-top: 0.6rem;
       }
 
       .btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 0.65rem;
-        min-height: 54px;
-        padding: 0.95rem 1.35rem;
+        gap: 0.6rem;
+        min-height: 52px;
+        padding: 0 1.6rem;
         border-radius: 999px;
         border: 1px solid transparent;
+        font-family: var(--font-ui);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
         transition:
-          transform 180ms ease,
-          box-shadow 180ms ease,
-          border-color 180ms ease,
-          background 180ms ease;
+          transform 200ms cubic-bezier(0.22, 0.87, 0.32, 1),
+          box-shadow 200ms,
+          background 200ms;
+        cursor: pointer;
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, var(--yellow), var(--red));
-        color: #050505;
-        font-weight: 800;
-        box-shadow: 0 16px 40px rgba(255, 59, 48, 0.32);
+        background: linear-gradient(
+          135deg,
+          var(--yellow) 0%,
+          var(--orange) 50%,
+          var(--red) 100%
+        );
+        color: #060606;
+        box-shadow: 0 12px 36px rgba(255, 45, 31, 0.38);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 48px rgba(255, 45, 31, 0.48);
       }
 
       .btn-secondary {
-        background: rgba(255, 255, 255, 0.04);
-        border-color: rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.14);
         color: var(--text);
       }
 
-      .btn:hover,
-      .btn:focus-visible {
+      .btn-secondary:hover {
         transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.24);
       }
 
+      /* ── HERO STATS ── */
       .hero-stats {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 0.85rem;
+        margin-top: 0.8rem;
       }
 
       .stat {
-        padding: 1.15rem 1rem;
+        padding: 1.1rem 1rem;
         border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(8px);
       }
 
       .stat strong {
         display: block;
-        font-family: "Bebas Neue", sans-serif;
+        font-family: var(--font-display);
         font-size: 2rem;
         letter-spacing: 0.04em;
         color: var(--yellow);
+        line-height: 1;
+        margin-bottom: 0.25rem;
       }
 
       .stat span {
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.85rem;
+        line-height: 1.5;
       }
 
-      .section-head {
-        display: grid;
-        gap: 1rem;
-        max-width: 760px;
-        margin-bottom: 2.5rem;
-      }
-
-      .section-head p,
-      .rich-text p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.85;
-        font-size: 1.03rem;
-      }
-
+      /* ══════════════════════════
+         LIFESTYLE
+      ══════════════════════════ */
       .split-layout {
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        gap: 1.6rem;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1.4rem;
         align-items: stretch;
       }
 
@@ -427,83 +465,124 @@
         overflow: hidden;
         border-radius: var(--radius-xl);
         background: var(--panel);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
       }
 
+      /* accent glow inside panels */
       .panel::after {
         content: "";
         position: absolute;
-        inset: auto -10% -45% auto;
-        width: 240px;
-        height: 240px;
+        right: -60px;
+        bottom: -60px;
+        width: 220px;
+        height: 220px;
         border-radius: 50%;
         background: radial-gradient(
           circle,
-          rgba(255, 59, 48, 0.22),
-          transparent 65%
+          rgba(255, 45, 31, 0.16),
+          transparent 70%
         );
         pointer-events: none;
       }
 
-      .lifestyle-card,
-      .quote-card,
-      .closure-card {
-        padding: clamp(1.5rem, 3vw, 2.4rem);
-      }
-
-      .lifestyle-card .rich-text {
+      .lifestyle-card {
+        padding: clamp(1.6rem, 3vw, 2.5rem);
         display: grid;
-        gap: 1.15rem;
+        gap: 1.6rem;
       }
 
+      .section-head {
+        display: grid;
+        gap: 0.85rem;
+        margin-bottom: 0;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.85;
+        font-size: 1rem;
+      }
+
+      .rich-text {
+        display: grid;
+        gap: 1.1rem;
+      }
+
+      .rich-text p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.88;
+        font-size: 1rem;
+      }
+
+      /* ── HIGHLIGHT ITEMS ── */
       .highlight-list {
         display: grid;
-        gap: 0.9rem;
+        gap: 1rem;
+        align-content: start;
       }
 
       .highlight-item {
         display: flex;
-        gap: 0.9rem;
+        gap: 1rem;
         align-items: flex-start;
-        padding: 1rem 1.1rem;
-        border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 1.15rem 1.15rem;
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.042);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        transition:
+          background 200ms,
+          border-color 200ms,
+          transform 200ms;
+      }
+
+      .highlight-item:hover {
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.14);
+        transform: translateX(4px);
       }
 
       .highlight-item strong {
         display: block;
+        font-family: var(--font-ui);
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
         color: var(--text);
-        font-size: 1rem;
+        margin-bottom: 0.3rem;
       }
 
       .highlight-item span {
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         line-height: 1.65;
       }
 
       .icon-box {
         flex: none;
-        display: grid;
-        place-items: center;
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         background: linear-gradient(
           135deg,
-          rgba(255, 212, 77, 0.18),
-          rgba(255, 59, 48, 0.18)
+          rgba(245, 197, 24, 0.15),
+          rgba(255, 45, 31, 0.15)
         );
-        color: var(--yellow);
-        font-size: 1.1rem;
+        border: 1px solid rgba(245, 197, 24, 0.18);
+        display: grid;
+        place-items: center;
+        font-size: 1.15rem;
       }
 
+      /* ══════════════════════════
+         TRICKS / FAILS CARDS
+      ══════════════════════════ */
       .cards-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.4rem;
+        gap: 1.25rem;
       }
 
       .trick-card,
@@ -511,39 +590,55 @@
         position: relative;
         display: grid;
         gap: 1rem;
-        padding: 1.15rem;
+        padding: 1.2rem;
         border-radius: var(--radius-lg);
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.08),
-          rgba(255, 255, 255, 0.04)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        transition:
-          transform 220ms ease,
-          box-shadow 220ms ease,
-          border-color 220ms ease;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.07);
         overflow: hidden;
+        transition:
+          transform 240ms cubic-bezier(0.22, 0.87, 0.32, 1),
+          box-shadow 240ms,
+          border-color 240ms;
       }
 
+      /* top accent line */
       .trick-card::before,
       .fail-card::before {
         content: "";
         position: absolute;
         inset: 0 auto auto 0;
         width: 100%;
-        height: 3px;
+        height: 2px;
         background: linear-gradient(90deg, var(--yellow), var(--red));
-        opacity: 0.85;
+        opacity: 0.9;
       }
 
       .trick-card:hover,
-      .trick-card:focus-within,
-      .fail-card:hover,
-      .fail-card:focus-within {
-        transform: translateY(-8px);
-        box-shadow: 0 26px 40px rgba(0, 0, 0, 0.3);
-        border-color: rgba(255, 255, 255, 0.18);
+      .fail-card:hover {
+        transform: translateY(-10px) scale(1.01);
+        box-shadow: 0 28px 50px rgba(0, 0, 0, 0.4);
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+
+      /* ── CARD GLOW on hover ── */
+      .trick-card::after,
+      .fail-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 50% 0%,
+          rgba(245, 197, 24, 0.07),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 280ms;
+        pointer-events: none;
+      }
+
+      .trick-card:hover::after,
+      .fail-card:hover::after {
+        opacity: 1;
       }
 
       .card-meta {
@@ -551,10 +646,12 @@
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        color: var(--muted);
-        font-size: 0.85rem;
+        font-family: var(--font-ui);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        letter-spacing: 0.12em;
+        color: var(--muted);
       }
 
       .card-meta span:last-child {
@@ -562,22 +659,19 @@
       }
 
       .card-copy p {
-        margin: 0;
         color: var(--muted);
         line-height: 1.7;
+        font-size: 0.92rem;
       }
 
+      /* ── MEDIA FRAMES ── */
       .media-frame {
         position: relative;
         aspect-ratio: 16 / 9;
-        width: 100%;
-        border-radius: 18px;
+        border-radius: 13px;
         overflow: hidden;
-        border: 1px dashed rgba(255, 255, 255, 0.18);
-        background:
-          linear-gradient(135deg, rgba(255, 212, 77, 0.08), transparent 45%),
-          linear-gradient(315deg, rgba(255, 59, 48, 0.08), transparent 38%),
-          #101010;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #0c0c0c;
       }
 
       .media-frame video,
@@ -587,48 +681,45 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center center;
-        background: #050505;
         border: 0;
       }
 
       .media-frame.is-portrait {
-        aspect-ratio: 4 / 5;
+        aspect-ratio: 4/5;
       }
-
+      .media-frame.is-portrait video {
+        object-fit: contain;
+      }
       .media-frame.is-square {
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 1/1;
       }
-
-      .media-frame.is-portrait video,
       .media-frame.is-square video {
         object-fit: contain;
       }
 
-      .hero-media.is-portrait video {
-        object-position: center 24%;
-      }
-
-      .hero-media-slot.is-portrait {
-        aspect-ratio: 4 / 5;
-      }
-
-      .hero-media-slot.is-square {
-        aspect-ratio: 1 / 1;
+      /* video overlay shimmer */
+      .media-frame::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(
+          180deg,
+          transparent 55%,
+          rgba(0, 0, 0, 0.55)
+        );
+        pointer-events: none;
       }
 
       .frame-note {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: block;
-        padding: 1rem 1rem 1.05rem;
-        text-align: left;
-        color: rgba(255, 255, 255, 0.66);
-        font-size: 0.92rem;
-        line-height: 1.6;
-        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72));
+        inset: auto 0 0 0;
+        z-index: 3;
+        padding: 0.8rem 1rem 0.9rem;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.55);
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+        line-height: 1.5;
       }
 
       .hero-media.has-media .media-placeholder,
@@ -637,128 +728,213 @@
         pointer-events: none;
       }
 
+      /* ══════════════════════════
+         FAILS LAYOUT
+      ══════════════════════════ */
       .fails-layout {
         display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
-        gap: 1.6rem;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: 1.4rem;
       }
 
       .quote-card {
-        min-height: 100%;
+        padding: clamp(1.6rem, 3vw, 2.5rem);
         display: grid;
+        gap: 1.8rem;
         align-content: space-between;
-        gap: 1.6rem;
         background:
           linear-gradient(
-            180deg,
-            rgba(255, 59, 48, 0.12),
+            160deg,
+            rgba(255, 45, 31, 0.1),
             rgba(255, 255, 255, 0.03)
           ),
           rgba(255, 255, 255, 0.04);
       }
 
       .quote-card blockquote {
-        margin: 0;
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(2.4rem, 5vw, 4.4rem);
-        line-height: 0.95;
-        letter-spacing: 0.03em;
+        font-family: var(--font-display);
+        font-size: clamp(2.6rem, 5vw, 4.6rem);
+        line-height: 0.92;
+        letter-spacing: 0.02em;
       }
 
       .quote-card p {
-        margin: 0;
         color: var(--muted);
-        line-height: 1.8;
+        line-height: 1.85;
+        font-size: 0.98rem;
       }
 
+      /* red side accent */
+      .quote-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12%;
+        bottom: 12%;
+        width: 3px;
+        background: linear-gradient(180deg, var(--yellow), var(--red));
+        border-radius: 999px;
+      }
+
+      .fails-right .section-head {
+        margin-bottom: 1.4rem;
+      }
+
+      /* ══════════════════════════
+         SPOTS / EPIC
+      ══════════════════════════ */
       .epic-spot {
         position: relative;
         overflow: hidden;
-        border-radius: 32px;
+        border-radius: 28px;
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: var(--shadow);
         background:
-          linear-gradient(120deg, rgba(255, 59, 48, 0.12), transparent 36%),
-          linear-gradient(320deg, rgba(255, 212, 77, 0.12), transparent 34%),
+          linear-gradient(120deg, rgba(255, 45, 31, 0.1), transparent 38%),
+          linear-gradient(310deg, rgba(245, 197, 24, 0.1), transparent 32%),
           rgba(255, 255, 255, 0.04);
       }
 
       .epic-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        min-height: 520px;
-      }
-
-      .epic-copy,
-      .epic-media {
-        position: relative;
-        padding: clamp(1.7rem, 4vw, 3rem);
+        grid-template-columns: 1.15fr 0.85fr;
+        min-height: 480px;
       }
 
       .epic-copy {
+        padding: clamp(1.8rem, 4vw, 3.2rem);
         display: grid;
+        gap: 1.25rem;
         align-content: center;
-        gap: 1.2rem;
-      }
-
-      .epic-copy p,
-      .closure-card p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.85;
       }
 
       .epic-copy .mega-line {
-        font-size: clamp(3rem, 7vw, 6rem);
+        font-size: clamp(2.6rem, 5.5vw, 4.8rem);
       }
 
-      .epic-media .media-frame,
-      .hero-media-slot {
-        height: 100%;
+      .epic-copy p {
+        color: var(--muted);
+        line-height: 1.85;
+        font-size: 0.98rem;
       }
 
+      .epic-media {
+        padding: clamp(1.2rem, 2.5vw, 2rem);
+        display: flex;
+        align-items: stretch;
+      }
+
+      .epic-media .media-frame {
+        flex: 1;
+      }
+
+      .stairs-frame {
+        aspect-ratio: 5/7;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      /* ══════════════════════════
+         CLOSURE
+      ══════════════════════════ */
       .closure-card {
+        padding: clamp(2.4rem, 5vw, 4rem);
         text-align: center;
         display: grid;
-        gap: 1.15rem;
+        gap: 1.4rem;
         justify-items: center;
+        background:
+          radial-gradient(
+            ellipse at 50% 0%,
+            rgba(245, 197, 24, 0.06),
+            transparent 55%
+          ),
+          var(--panel);
       }
 
-      .closure-card .manifesto {
-        max-width: 860px;
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(2.1rem, 5vw, 4rem);
-        line-height: 0.98;
-        letter-spacing: 0.03em;
+      .closure-card h2 {
+        max-width: 14ch;
+      }
+
+      .closure-card > p {
+        color: var(--muted);
+        line-height: 1.85;
+        max-width: 680px;
+        font-size: 1rem;
+      }
+
+      .manifesto {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4.5vw, 3.8rem);
+        line-height: 0.96;
+        letter-spacing: 0.02em;
+        max-width: 880px;
       }
 
       .pill-row {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 0.8rem;
+        gap: 0.7rem;
       }
 
       .pill {
-        padding: 0.65rem 0.9rem;
+        padding: 0.55rem 1rem;
         border-radius: 999px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         background: rgba(255, 255, 255, 0.04);
+        font-family: var(--font-ui);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
         color: var(--muted);
-        font-size: 0.92rem;
+        transition:
+          background 180ms,
+          color 180ms,
+          border-color 180ms;
+      }
+
+      .pill:hover {
+        background: rgba(255, 255, 255, 0.09);
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.22);
       }
 
       .footer-note {
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 0.88rem;
+        color: rgba(255, 255, 255, 0.35);
+        font-size: 0.85rem;
+        letter-spacing: 0.06em;
       }
 
+      /* ══════════════════════════
+         DIAGONAL ACCENT STRIPE
+      ══════════════════════════ */
+      .stripe-divider {
+        position: relative;
+        overflow: hidden;
+        height: 3px;
+        margin: 0 auto;
+        width: min(96%, 1100px);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--yellow) 30%,
+          var(--red) 70%,
+          transparent
+        );
+        opacity: 0.45;
+      }
+
+      /* ══════════════════════════
+         REVEAL ANIMATIONS
+      ══════════════════════════ */
       [data-reveal] {
         opacity: 0;
-        transform: translateY(28px);
+        transform: translateY(32px);
         transition:
-          opacity 700ms ease,
-          transform 700ms ease;
+          opacity 750ms cubic-bezier(0.22, 0.87, 0.32, 1),
+          transform 750ms cubic-bezier(0.22, 0.87, 0.32, 1);
       }
 
       [data-reveal].is-visible {
@@ -767,18 +943,19 @@
       }
 
       [data-delay="1"] {
-        transition-delay: 90ms;
+        transition-delay: 100ms;
       }
-
       [data-delay="2"] {
-        transition-delay: 180ms;
+        transition-delay: 200ms;
       }
-
       [data-delay="3"] {
-        transition-delay: 270ms;
+        transition-delay: 300ms;
       }
 
-      @media (max-width: 980px) {
+      /* ══════════════════════════
+         RESPONSIVE
+      ══════════════════════════ */
+      @media (max-width: 960px) {
         .split-layout,
         .fails-layout,
         .epic-grid,
@@ -787,70 +964,63 @@
         }
 
         .hero-stats {
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr 1fr;
         }
-
-        .nav-inner {
-          padding: 1rem 0;
-          align-items: flex-start;
-          flex-direction: column;
-        }
-
         .hero-shell,
         .hero-content {
           min-height: auto;
         }
-
         .hero-content {
-          padding-top: 5rem;
-          padding-bottom: 4rem;
+          padding-top: 4rem;
+          padding-bottom: 3rem;
         }
-
         .epic-grid {
           min-height: auto;
         }
-
         .epic-media {
-          min-height: 320px;
+          min-height: 280px;
+        }
+        .stairs-frame {
+          max-width: 100%;
+        }
+        .media-frame.is-portrait,
+        .media-frame.is-square {
+          aspect-ratio: 16/9;
+        }
+        .media-frame.is-portrait video,
+        .media-frame.is-square video {
+          object-fit: cover;
         }
 
-        .media-frame.is-portrait,
-        .media-frame.is-square,
-        .hero-media-slot.is-portrait,
-        .hero-media-slot.is-square {
-          aspect-ratio: 16 / 9;
+        .nav-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0.8rem 0;
+        }
+        .nav-links {
+          justify-content: flex-start;
         }
       }
 
-      @media (max-width: 720px) {
+      @media (max-width: 640px) {
         .section {
           padding: 5rem 0;
         }
-
-        .container {
-          width: min(calc(100% - 1.2rem), var(--max-width));
+        .hero-stats {
+          grid-template-columns: 1fr;
         }
-
-        .hero {
-          padding-top: 1.4rem;
-        }
-
-        .hero-shell {
-          border-radius: 28px;
-        }
-
-        .hero-actions,
-        .pill-row {
+        .hero-actions {
           flex-direction: column;
-          align-items: stretch;
         }
-
         .btn {
           width: 100%;
+          justify-content: center;
         }
-
-        .brand {
-          align-items: center;
+        .hero-shell {
+          border-radius: 20px;
+        }
+        .pill-row {
+          gap: 0.5rem;
         }
       }
     </style>
@@ -859,9 +1029,9 @@
     <header class="nav">
       <div class="container nav-inner">
         <a class="brand" href="#inicio" aria-label="Ir al inicio">
+          <span class="brand-mark">🛹</span>
           <span>Skate Or Die</span>
         </a>
-
         <nav class="nav-links" aria-label="Navegación principal">
           <a href="#inicio">Inicio</a>
           <a href="#lifestyle">Lifestyle</a>
@@ -874,11 +1044,11 @@
     </header>
 
     <main>
+      <!-- ══ HERO ══ -->
       <section class="hero" id="inicio">
         <div class="container">
           <div class="hero-shell" data-reveal>
             <div class="hero-media" aria-hidden="true">
-              <!-- Reemplaza el src vacío por tu video o imagen de fondo -->
               <video
                 src="sources/skate_is_fun.mp4"
                 autoplay
@@ -887,19 +1057,19 @@
                 playsinline
                 poster=""
               ></video>
-              <!-- Si prefieres imagen, puedes usar esta etiqueta:
-              <img src="" alt="" />
-              -->
               <div class="media-placeholder">
                 <span>Agrega aquí tu video o imagen principal del skate</span>
               </div>
             </div>
 
             <div class="hero-content">
-              <div class="eyebrow">Calle. Disciplina. Identidad.</div>
+              <div class="eyebrow">Calle · Disciplina · Identidad</div>
 
-              <div class="hero-copy">
-                <h1>El skate no es un deporte, es una forma de vida.</h1>
+              <div style="display: grid; gap: 0.75rem">
+                <h1>
+                  El skate no es<br /><span class="accent">un deporte.</span
+                  ><br />Es una forma de vida.
+                </h1>
                 <p class="hero-lead">
                   Libertad en cada línea, disciplina en cada intento y calle en
                   cada mirada. El skate mezcla pasión, estilo y hambre de
@@ -909,9 +1079,7 @@
               </div>
 
               <div class="hero-actions">
-                <a class="btn btn-primary" href="#trucos"
-                  >Ver trucos y bajar al asfalto</a
-                >
+                <a class="btn btn-primary" href="#trucos">Ver trucos</a>
                 <a class="btn btn-secondary" href="#lifestyle"
                   >Sentir el lifestyle</a
                 >
@@ -924,13 +1092,11 @@
                 </div>
                 <div class="stat" data-reveal data-delay="2">
                   <strong>0 Excusas</strong>
-                  <span>En el skate no se finge: el truco sale o no sale.</span>
+                  <span>El truco sale o no sale. Sin trampa.</span>
                 </div>
                 <div class="stat" data-reveal data-delay="3">
-                  <strong>Street Mindset</strong>
-                  <span
-                    >Donde otros ven concreto, un skater ve posibilidades.</span
-                  >
+                  <strong>Street</strong>
+                  <span>Donde hay concreto, un skater ve posibilidades.</span>
                 </div>
               </div>
             </div>
@@ -938,14 +1104,17 @@
         </div>
       </section>
 
+      <div class="stripe-divider"></div>
+
+      <!-- ══ LIFESTYLE ══ -->
       <section class="section" id="lifestyle">
+        <div class="section-rule"></div>
         <div class="container split-layout">
           <div class="panel lifestyle-card" data-reveal>
             <div class="section-head">
               <div class="section-tag">El skate es un lifestyle</div>
               <h2>Más que ruedas y tabla: una manera de ver el mundo.</h2>
             </div>
-
             <div class="rich-text">
               <p>
                 El skate no vive encerrado en una cancha. Vive en la calle, en
@@ -984,7 +1153,6 @@
                 >
               </div>
             </article>
-
             <article class="highlight-item panel" data-reveal data-delay="2">
               <div class="icon-box">⚡</div>
               <div>
@@ -995,7 +1163,6 @@
                 >
               </div>
             </article>
-
             <article class="highlight-item panel" data-reveal data-delay="3">
               <div class="icon-box">✶</div>
               <div>
@@ -1010,12 +1177,14 @@
         </div>
       </section>
 
+      <!-- ══ TRUCOS ══ -->
       <section class="section" id="trucos">
+        <div class="section-rule"></div>
         <div class="container">
-          <div class="section-head" data-reveal>
+          <div class="section-head" data-reveal style="margin-bottom: 2.4rem">
             <div class="section-tag">Trucos</div>
             <h2>La base del respeto se gana truco por truco.</h2>
-            <p>
+            <p style="color: var(--muted); line-height: 1.8; font-size: 1rem">
               Estos movimientos no son solo técnica. Son control, timing,
               paciencia y calle. Cada uno abre una puerta distinta dentro del
               lenguaje del skate.
@@ -1025,17 +1194,20 @@
           <div class="cards-grid">
             <article class="trick-card" data-reveal>
               <div class="card-meta">
-                <span>Truco 01</span>
-                <span>Ollie</span>
+                <span>Truco 01</span><span>Ollie</span>
               </div>
-              <div class="card-copy">
-                <h3>Ollie</h3>
-                <p>
-                  La raíz de casi todo. Consiste en elevar tabla y skater al
-                  mismo tiempo sin usar las manos, combinando pop, arrastre y
-                  control en el aire.
-                </p>
-              </div>
+              <h3>Ollie</h3>
+              <p
+                class="card-copy"
+                style="
+                  color: var(--muted);
+                  font-size: 0.92rem;
+                  line-height: 1.7;
+                "
+              >
+                La raíz de casi todo. Eleva tabla y skater al mismo tiempo sin
+                manos, combinando pop, arrastre y control en el aire.
+              </p>
               <div class="media-frame">
                 <video
                   autoplay
@@ -1047,24 +1219,27 @@
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Video del Ollie. Si quieres reemplazarlo, cambia el `src`.
+                  Reemplaza el src por tu video del Ollie.
                 </div>
               </div>
             </article>
 
             <article class="trick-card" data-reveal data-delay="1">
               <div class="card-meta">
-                <span>Truco 02</span>
-                <span>Kickflip</span>
+                <span>Truco 02</span><span>Kickflip</span>
               </div>
-              <div class="card-copy">
-                <h3>Kickflip</h3>
-                <p>
-                  Un clásico de nivel. La tabla gira sobre su eje longitudinal
-                  mientras el rider se mantiene arriba para volver a atraparla y
-                  aterrizar limpio.
-                </p>
-              </div>
+              <h3>Kickflip</h3>
+              <p
+                class="card-copy"
+                style="
+                  color: var(--muted);
+                  font-size: 0.92rem;
+                  line-height: 1.7;
+                "
+              >
+                La tabla gira sobre su eje longitudinal mientras el rider se
+                mantiene arriba para volver a atraparla y aterrizar limpio.
+              </p>
               <div class="media-frame">
                 <video
                   autoplay
@@ -1076,24 +1251,27 @@
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Video del Kickflip. Si quieres reemplazarlo, cambia el `src`.
+                  Reemplaza el src por tu video del Kickflip.
                 </div>
               </div>
             </article>
 
             <article class="trick-card" data-reveal data-delay="2">
               <div class="card-meta">
-                <span>Truco 03</span>
-                <span>Heelflip</span>
+                <span>Truco 03</span><span>Heelflip</span>
               </div>
-              <div class="card-copy">
-                <h3>Heelflip</h3>
-                <p>
-                  Similar al kickflip, pero el giro se provoca con el talón.
-                  Exige precisión, control del cuerpo y un timing fino para
-                  atraparlo con autoridad.
-                </p>
-              </div>
+              <h3>Heelflip</h3>
+              <p
+                class="card-copy"
+                style="
+                  color: var(--muted);
+                  font-size: 0.92rem;
+                  line-height: 1.7;
+                "
+              >
+                Similar al kickflip, pero el giro se provoca con el talón. Exige
+                precisión, control del cuerpo y timing fino.
+              </p>
               <div class="media-frame">
                 <video
                   autoplay
@@ -1105,24 +1283,27 @@
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Video del Heelflip. Si quieres reemplazarlo, cambia el `src`.
+                  Reemplaza el src por tu video del Heelflip.
                 </div>
               </div>
             </article>
 
             <article class="trick-card" data-reveal data-delay="3">
               <div class="card-meta">
-                <span>Truco 04</span>
-                <span>Hospital Flip</span>
+                <span>Truco 04</span><span>Hospital Flip</span>
               </div>
-              <div class="card-copy">
-                <h3>Hospital Flip</h3>
-                <p>
-                  Un truco con mucha personalidad: mezcla un flip con un control
-                  extra del pie para reposicionar la tabla antes de bajarla.
-                  Técnico, raro y con mucha actitud.
-                </p>
-              </div>
+              <h3>Hospital Flip</h3>
+              <p
+                class="card-copy"
+                style="
+                  color: var(--muted);
+                  font-size: 0.92rem;
+                  line-height: 1.7;
+                "
+              >
+                Mezcla un flip con control extra del pie para reposicionar la
+                tabla antes de bajarla. Técnico, raro y con mucha actitud.
+              </p>
               <div class="media-frame">
                 <video
                   autoplay
@@ -1134,26 +1315,27 @@
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Video del Hospital Flip. Si quieres reemplazarlo, cambia el
-                  `src`.
+                  Reemplaza el src por tu video del Hospital Flip.
                 </div>
               </div>
             </article>
 
             <article class="trick-card" data-reveal data-delay="3">
               <div class="card-meta">
-                <span>Truco 05</span>
-                <span>50-50 Grind</span>
+                <span>Truco 05</span><span>50-50 Grind</span>
               </div>
-              <div class="card-copy">
-                <h3>50-50</h3>
-                <p>
-                  Un grind esencial y con mucha presencia. Ambos trucks caen
-                  sobre la baranda o el borde al mismo tiempo, exigiendo
-                  balance, enfoque y salida limpia para que se vea sólido de
-                  verdad.
-                </p>
-              </div>
+              <h3>50-50</h3>
+              <p
+                class="card-copy"
+                style="
+                  color: var(--muted);
+                  font-size: 0.92rem;
+                  line-height: 1.7;
+                "
+              >
+                Ambos trucks caen sobre la baranda al mismo tiempo. Balance,
+                enfoque y salida limpia para que se vea sólido de verdad.
+              </p>
               <div class="media-frame">
                 <video
                   autoplay
@@ -1165,8 +1347,7 @@
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Placeholder de video local para el 50-50. Reemplaza `src=""`
-                  por tu archivo.
+                  Reemplaza el src por tu video del 50-50.
                 </div>
               </div>
             </article>
@@ -1174,7 +1355,9 @@
         </div>
       </section>
 
+      <!-- ══ FAILS ══ -->
       <section class="section" id="fails">
+        <div class="section-rule"></div>
         <div class="container fails-layout">
           <div class="quote-card panel" data-reveal>
             <div>
@@ -1185,7 +1368,6 @@
               En el skate, fallar no te saca del juego: te mete más adentro. Los
               golpes enseñan dónde estuvo el error, cómo se mueve tu cuerpo bajo
               presión y cuánto aguanta tu mente cuando el truco todavía no cae.
-              El fail no humilla; forma.
             </p>
             <p>
               Caerse es parte del proceso. Lo importante no es evitar el golpe,
@@ -1194,25 +1376,28 @@
             </p>
           </div>
 
-          <div>
+          <div class="fails-right">
             <div class="section-head" data-reveal data-delay="1">
               <h2>Los fails también tienen peso.</h2>
-              <p>
+              <p style="color: var(--muted); line-height: 1.8">
                 No son bloopers. Son archivo del progreso. Cada intento mal
                 aterrizado deja una lección que después aparece en el truco bien
                 bajado.
               </p>
             </div>
-
             <div class="cards-grid">
               <article class="fail-card" data-reveal data-delay="1">
-                <div class="card-copy">
-                  <h3>Fail 01</h3>
-                  <p>
-                    Cuando el cuerpo duda, el concreto responde. Aquí se aprende
-                    a confiar de verdad.
-                  </p>
-                </div>
+                <h3>Fail 01</h3>
+                <p
+                  style="
+                    color: var(--muted);
+                    font-size: 0.9rem;
+                    line-height: 1.65;
+                  "
+                >
+                  Cuando el cuerpo duda, el concreto responde. Aquí se aprende a
+                  confiar de verdad.
+                </p>
                 <div class="media-frame">
                   <video
                     autoplay
@@ -1220,24 +1405,24 @@
                     loop
                     playsinline
                     preload="metadata"
-                    src=""
+                    src="sources/fails/fail1.mp4"
                     poster=""
                   ></video>
-                  <div class="frame-note">
-                    Placeholder para video de fail 1. Reemplaza `src=""` por tu
-                    archivo.
-                  </div>
+                  <div class="frame-note">Fail 1 — reemplaza el src.</div>
                 </div>
               </article>
-
               <article class="fail-card" data-reveal data-delay="2">
-                <div class="card-copy">
-                  <h3>Fail 02</h3>
-                  <p>
-                    Un mal aterrizaje puede doler, pero también te enseña dónde
-                    ajustar el timing.
-                  </p>
-                </div>
+                <h3>Fail 02</h3>
+                <p
+                  style="
+                    color: var(--muted);
+                    font-size: 0.9rem;
+                    line-height: 1.65;
+                  "
+                >
+                  Un mal aterrizaje puede doler, pero también te enseña dónde
+                  ajustar el timing.
+                </p>
                 <div class="media-frame">
                   <video
                     autoplay
@@ -1245,24 +1430,24 @@
                     loop
                     playsinline
                     preload="metadata"
-                    src=""
+                    src="sources/fails/fail2.mp4"
                     poster=""
                   ></video>
-                  <div class="frame-note">
-                    Placeholder para video de fail 2. Reemplaza `src=""` por tu
-                    archivo.
-                  </div>
+                  <div class="frame-note">Fail 2 — reemplaza el src.</div>
                 </div>
               </article>
-
               <article class="fail-card" data-reveal data-delay="3">
-                <div class="card-copy">
-                  <h3>Fail 03</h3>
-                  <p>
-                    La tabla se escapa, el cuerpo cae, pero la mente empieza a
-                    entender el movimiento.
-                  </p>
-                </div>
+                <h3>Fail 03</h3>
+                <p
+                  style="
+                    color: var(--muted);
+                    font-size: 0.9rem;
+                    line-height: 1.65;
+                  "
+                >
+                  La tabla se escapa, el cuerpo cae, pero la mente empieza a
+                  entender el movimiento.
+                </p>
                 <div class="media-frame">
                   <video
                     autoplay
@@ -1270,24 +1455,24 @@
                     loop
                     playsinline
                     preload="metadata"
-                    src=""
+                    src="sources/fails/fail3.mp4"
                     poster=""
                   ></video>
-                  <div class="frame-note">
-                    Placeholder para video de fail 3. Reemplaza `src=""` por tu
-                    archivo.
-                  </div>
+                  <div class="frame-note">Fail 3 — reemplaza el src.</div>
                 </div>
               </article>
-
               <article class="fail-card" data-reveal data-delay="3">
-                <div class="card-copy">
-                  <h3>Fail 04</h3>
-                  <p>
-                    Los errores se acumulan hasta que un día el truco cae y todo
-                    ese dolor cobra sentido.
-                  </p>
-                </div>
+                <h3>Fail 04</h3>
+                <p
+                  style="
+                    color: var(--muted);
+                    font-size: 0.9rem;
+                    line-height: 1.65;
+                  "
+                >
+                  Los errores se acumulan hasta que un día el truco cae y todo
+                  ese dolor cobra sentido.
+                </p>
                 <div class="media-frame">
                   <video
                     autoplay
@@ -1295,13 +1480,10 @@
                     loop
                     playsinline
                     preload="metadata"
-                    src=""
+                    src="sources/fails/fail4.mp4"
                     poster=""
                   ></video>
-                  <div class="frame-note">
-                    Placeholder para video de fail 4. Reemplaza `src=""` por tu
-                    archivo.
-                  </div>
+                  <div class="frame-note">Fail 4 — reemplaza el src.</div>
                 </div>
               </article>
             </div>
@@ -1309,15 +1491,16 @@
         </div>
       </section>
 
+      <!-- ══ SPOTS ══ -->
       <section class="section" id="spots">
+        <div class="section-rule"></div>
         <div class="container">
           <div class="epic-spot" data-reveal>
             <div class="epic-grid">
               <div class="epic-copy">
                 <div class="section-tag">Mentalidad de spot</div>
                 <h2 class="mega-line">
-                  Donde otros ven escaleras, barandas o aceras, nosotros vemos
-                  posibilidades.
+                  Donde otros ven escaleras, nosotros vemos posibilidades.
                 </h2>
                 <p>
                   Esa es la diferencia entre caminar la ciudad y leerla. El
@@ -1331,10 +1514,8 @@
                   es solo un lugar: es una idea esperando ser atacada.
                 </p>
               </div>
-
               <div class="epic-media">
-                <div class="media-frame hero-media-slot">
-                  <!-- Reemplaza por imagen o video principal del spot -->
+                <div class="media-frame stairs-frame">
                   <video
                     autoplay
                     muted
@@ -1345,8 +1526,7 @@
                     poster=""
                   ></video>
                   <div class="frame-note">
-                    Espacio épico para tu video o imagen principal del spot.
-                    Reemplaza `src=""` o usa un `img`.
+                    Video o imagen del spot. Reemplaza el src.
                   </div>
                 </div>
               </div>
@@ -1355,17 +1535,17 @@
         </div>
       </section>
 
+      <!-- ══ CIERRE ══ -->
       <section class="section" id="cierre">
+        <div class="section-rule"></div>
         <div class="container">
           <div class="closure-card panel" data-reveal>
-            <div class="section-tag">Cierre</div>
+            <div class="section-tag">Manifiesto</div>
             <h2>El skate no se mide solo en trucos.</h2>
             <p>
               Se mide en disciplina cuando nadie está mirando, en identidad
               cuando todos quieren que copies, y en carácter cuando el cuerpo
-              duele pero la mente decide volver a intentarlo. El skate es caída,
-              regreso, enfoque y estilo. Es una forma brutal y elegante de
-              seguir adelante.
+              duele pero la mente decide volver a intentarlo.
             </p>
 
             <div class="pill-row">
@@ -1377,12 +1557,14 @@
             </div>
 
             <p class="manifesto">
-              No se trata de no caer. Se trata de levantarse con más hambre, más
-              estilo y más verdad sobre la tabla.
+              No se trata de no caer.<br />Se trata de levantarse con más<br /><span
+                class="accent"
+                >hambre, estilo y verdad.</span
+              >
             </p>
 
             <p class="footer-note">
-              Skate or die. Caer. Aprender. Volver. Crear.
+              Skate or die · Caer · Aprender · Volver · Crear
             </p>
           </div>
         </div>
@@ -1390,70 +1572,43 @@
     </main>
 
     <script>
-      const revealElements = document.querySelectorAll("[data-reveal]");
-      const videos = document.querySelectorAll("video");
-
-      const revealObserver = new IntersectionObserver(
+      /* ── REVEAL ON SCROLL ── */
+      const revealEls = document.querySelectorAll("[data-reveal]");
+      const ro = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              revealObserver.unobserve(entry.target);
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+              ro.unobserve(e.target);
             }
           });
         },
-        {
-          threshold: 0.18,
-          rootMargin: "0px 0px -40px 0px",
-        },
+        { threshold: 0.12, rootMargin: "0px 0px -32px 0px" },
       );
+      revealEls.forEach((el) => ro.observe(el));
 
-      revealElements.forEach((element) => {
-        revealObserver.observe(element);
-      });
+      /* ── VIDEO ASPECT SYNC ── */
+      document.querySelectorAll("video").forEach((video) => {
+        const hasSource = Boolean(video.getAttribute("src")?.trim());
+        const parent = video.closest(".media-frame, .hero-media");
 
-      videos.forEach((video) => {
-        const hasSource = Boolean(
-          video.getAttribute("src") && video.getAttribute("src").trim(),
-        );
-        const mediaParent = video.closest(".media-frame, .hero-media");
-
-        const syncVideoLayout = () => {
-          if (!mediaParent || !video.videoWidth || !video.videoHeight) {
-            return;
-          }
-
-          const ratio = video.videoWidth / video.videoHeight;
-
-          mediaParent.classList.remove(
-            "is-portrait",
-            "is-square",
-            "is-landscape",
-          );
-
-          if (ratio < 0.9) {
-            mediaParent.classList.add("is-portrait");
-          } else if (ratio <= 1.1) {
-            mediaParent.classList.add("is-square");
-          } else {
-            mediaParent.classList.add("is-landscape");
-          }
+        const syncLayout = () => {
+          if (!parent || !video.videoWidth || !video.videoHeight) return;
+          const r = video.videoWidth / video.videoHeight;
+          parent.classList.remove("is-portrait", "is-square", "is-landscape");
+          if (r < 0.9) parent.classList.add("is-portrait");
+          else if (r <= 1.1) parent.classList.add("is-square");
+          else parent.classList.add("is-landscape");
         };
 
-        if (hasSource && mediaParent) {
-          mediaParent.classList.add("has-media");
-        }
-
+        if (hasSource && parent) parent.classList.add("has-media");
         video.removeAttribute("controls");
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
-
-        video.addEventListener("loadedmetadata", syncVideoLayout);
-        video.addEventListener("resize", syncVideoLayout);
-
+        video.addEventListener("loadedmetadata", syncLayout);
         if (hasSource) {
-          syncVideoLayout();
+          syncLayout();
           video.play().catch(() => {});
         }
       });
