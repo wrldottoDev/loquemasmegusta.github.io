@@ -231,6 +231,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center center;
       }
 
       .media-placeholder {
@@ -586,7 +587,34 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center center;
+        background: #050505;
         border: 0;
+      }
+
+      .media-frame.is-portrait {
+        aspect-ratio: 4 / 5;
+      }
+
+      .media-frame.is-square {
+        aspect-ratio: 1 / 1;
+      }
+
+      .media-frame.is-portrait video,
+      .media-frame.is-square video {
+        object-fit: contain;
+      }
+
+      .hero-media.is-portrait video {
+        object-position: center 24%;
+      }
+
+      .hero-media-slot.is-portrait {
+        aspect-ratio: 4 / 5;
+      }
+
+      .hero-media-slot.is-square {
+        aspect-ratio: 1 / 1;
       }
 
       .frame-note {
@@ -601,6 +629,12 @@
         font-size: 0.92rem;
         line-height: 1.6;
         background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72));
+      }
+
+      .hero-media.has-media .media-placeholder,
+      .media-frame.has-media .frame-note {
+        opacity: 0;
+        pointer-events: none;
       }
 
       .fails-layout {
@@ -779,6 +813,13 @@
         .epic-media {
           min-height: 320px;
         }
+
+        .media-frame.is-portrait,
+        .media-frame.is-square,
+        .hero-media-slot.is-portrait,
+        .hero-media-slot.is-square {
+          aspect-ratio: 16 / 9;
+        }
       }
 
       @media (max-width: 720px) {
@@ -818,7 +859,6 @@
     <header class="nav">
       <div class="container nav-inner">
         <a class="brand" href="#inicio" aria-label="Ir al inicio">
-          <span class="brand-mark">S</span>
           <span>Skate Or Die</span>
         </a>
 
@@ -839,7 +879,14 @@
           <div class="hero-shell" data-reveal>
             <div class="hero-media" aria-hidden="true">
               <!-- Reemplaza el src vacío por tu video o imagen de fondo -->
-              <video src="" autoplay muted loop playsinline poster=""></video>
+              <video
+                src="sources/skate_is_fun.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                poster=""
+              ></video>
               <!-- Si prefieres imagen, puedes usar esta etiqueta:
               <img src="" alt="" />
               -->
@@ -991,14 +1038,16 @@
               </div>
               <div class="media-frame">
                 <video
-                  controls
-                  preload="none"
-                  src="/sources/ollie.mov"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  src="sources/ollie.mp4"
                   poster=""
                 ></video>
                 <div class="frame-note">
-                  Placeholder de video local para el Ollie. Reemplaza `src=""`
-                  por tu archivo.
+                  Video del Ollie. Si quieres reemplazarlo, cambia el `src`.
                 </div>
               </div>
             </article>
@@ -1017,10 +1066,17 @@
                 </p>
               </div>
               <div class="media-frame">
-                <video controls preload="none" src="" poster=""></video>
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  src="sources/kickflip.mp4"
+                  poster=""
+                ></video>
                 <div class="frame-note">
-                  Placeholder de video local para el Kickflip. Reemplaza
-                  `src=""` por tu archivo.
+                  Video del Kickflip. Si quieres reemplazarlo, cambia el `src`.
                 </div>
               </div>
             </article>
@@ -1039,10 +1095,17 @@
                 </p>
               </div>
               <div class="media-frame">
-                <video controls preload="none" src="" poster=""></video>
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  src="sources/heelflip.mp4"
+                  poster=""
+                ></video>
                 <div class="frame-note">
-                  Placeholder de video local para el Heelflip. Reemplaza
-                  `src=""` por tu archivo.
+                  Video del Heelflip. Si quieres reemplazarlo, cambia el `src`.
                 </div>
               </div>
             </article>
@@ -1061,10 +1124,49 @@
                 </p>
               </div>
               <div class="media-frame">
-                <video controls preload="none" src="" poster=""></video>
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  src="sources/hospital.mp4"
+                  poster=""
+                ></video>
                 <div class="frame-note">
-                  Placeholder de video local para el Hospital Flip. Reemplaza
-                  `src=""` por tu archivo.
+                  Video del Hospital Flip. Si quieres reemplazarlo, cambia el
+                  `src`.
+                </div>
+              </div>
+            </article>
+
+            <article class="trick-card" data-reveal data-delay="3">
+              <div class="card-meta">
+                <span>Truco 05</span>
+                <span>50-50 Grind</span>
+              </div>
+              <div class="card-copy">
+                <h3>50-50</h3>
+                <p>
+                  Un grind esencial y con mucha presencia. Ambos trucks caen
+                  sobre la baranda o el borde al mismo tiempo, exigiendo
+                  balance, enfoque y salida limpia para que se vea sólido de
+                  verdad.
+                </p>
+              </div>
+              <div class="media-frame">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  src="sources/50-50.mp4"
+                  poster=""
+                ></video>
+                <div class="frame-note">
+                  Placeholder de video local para el 50-50. Reemplaza `src=""`
+                  por tu archivo.
                 </div>
               </div>
             </article>
@@ -1112,7 +1214,15 @@
                   </p>
                 </div>
                 <div class="media-frame">
-                  <video controls preload="none" src="" poster=""></video>
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    src=""
+                    poster=""
+                  ></video>
                   <div class="frame-note">
                     Placeholder para video de fail 1. Reemplaza `src=""` por tu
                     archivo.
@@ -1129,7 +1239,15 @@
                   </p>
                 </div>
                 <div class="media-frame">
-                  <video controls preload="none" src="" poster=""></video>
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    src=""
+                    poster=""
+                  ></video>
                   <div class="frame-note">
                     Placeholder para video de fail 2. Reemplaza `src=""` por tu
                     archivo.
@@ -1146,7 +1264,15 @@
                   </p>
                 </div>
                 <div class="media-frame">
-                  <video controls preload="none" src="" poster=""></video>
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    src=""
+                    poster=""
+                  ></video>
                   <div class="frame-note">
                     Placeholder para video de fail 3. Reemplaza `src=""` por tu
                     archivo.
@@ -1163,7 +1289,15 @@
                   </p>
                 </div>
                 <div class="media-frame">
-                  <video controls preload="none" src="" poster=""></video>
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    src=""
+                    poster=""
+                  ></video>
                   <div class="frame-note">
                     Placeholder para video de fail 4. Reemplaza `src=""` por tu
                     archivo.
@@ -1201,7 +1335,15 @@
               <div class="epic-media">
                 <div class="media-frame hero-media-slot">
                   <!-- Reemplaza por imagen o video principal del spot -->
-                  <video controls preload="none" src="" poster=""></video>
+                  <video
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    src="sources/escaleras.mp4"
+                    poster=""
+                  ></video>
                   <div class="frame-note">
                     Espacio épico para tu video o imagen principal del spot.
                     Reemplaza `src=""` o usa un `img`.
@@ -1249,6 +1391,7 @@
 
     <script>
       const revealElements = document.querySelectorAll("[data-reveal]");
+      const videos = document.querySelectorAll("video");
 
       const revealObserver = new IntersectionObserver(
         (entries) => {
@@ -1267,6 +1410,52 @@
 
       revealElements.forEach((element) => {
         revealObserver.observe(element);
+      });
+
+      videos.forEach((video) => {
+        const hasSource = Boolean(
+          video.getAttribute("src") && video.getAttribute("src").trim(),
+        );
+        const mediaParent = video.closest(".media-frame, .hero-media");
+
+        const syncVideoLayout = () => {
+          if (!mediaParent || !video.videoWidth || !video.videoHeight) {
+            return;
+          }
+
+          const ratio = video.videoWidth / video.videoHeight;
+
+          mediaParent.classList.remove(
+            "is-portrait",
+            "is-square",
+            "is-landscape",
+          );
+
+          if (ratio < 0.9) {
+            mediaParent.classList.add("is-portrait");
+          } else if (ratio <= 1.1) {
+            mediaParent.classList.add("is-square");
+          } else {
+            mediaParent.classList.add("is-landscape");
+          }
+        };
+
+        if (hasSource && mediaParent) {
+          mediaParent.classList.add("has-media");
+        }
+
+        video.removeAttribute("controls");
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+
+        video.addEventListener("loadedmetadata", syncVideoLayout);
+        video.addEventListener("resize", syncVideoLayout);
+
+        if (hasSource) {
+          syncVideoLayout();
+          video.play().catch(() => {});
+        }
       });
     </script>
   </body>
